@@ -1,4 +1,6 @@
 
+"use strict";
+
 // DOM handlers
 
 	// Header elements
@@ -29,6 +31,9 @@
 		 var h2Text = document.getElementsByTagName("h2");
 		 var mainContent = document.getElementById("main-content");
 		 var contentWrap = document.getElementById("wrapper");
+
+ // Edit mode
+ 		var edit = false;
 
 // Functions
 
@@ -64,7 +69,7 @@
   		function toggleLarge() {
   			contentWrap.classList.toggle("large");
   		}
-var edit= false;
+
 	// msgSubmit() - Callback from buttonSubmit
 		// When the submit button is clicked (or a return keypress is heard),
 		// the value of the text input is passed into Chatty.addNewMessage()
@@ -72,13 +77,12 @@ var edit= false;
 		  	var pattern = userInput.value.trim();
 				if( pattern === "") {
 					alert("Text field cannot be empty");
-				} else if (edit===true){
-					var editMsg=document.getElementById(id);
-					var index=id.charAt(3);
-					console.log(index);
+				} else if (edit === true) {
+					var editMsg = document.getElementById(id);
+					var index = id.charAt(3);
 					Chatty.editMessage(messageToEdit, userInput.value, id, index);
 					userInput.value = "";
-					edit=false;
+					edit = false;
 
 				} else {
 						var rButton = document.getElementsByClassName("rButton");
@@ -92,31 +96,29 @@ var edit= false;
 		  			buttonClearAll.disabled = false;
 	  		}
   		}
-var messageToEdit;
-  		function editMsg() {
-  			edit= true;
-  			messageToEdit=event.target.parentNode;
-  			id=messageToEdit.id;
-  			var userMessage=messageToEdit.querySelector("label");
-  			console.log(messageToEdit);
-  			console.log(id);
-  			if(event.target.className=== "edit") {
-  				userInput.focus();
-  				userInput.value= userMessage.innerHTML;
-  			}
 
-
-
-  		}
+	// Edit functionality
+		var messageToEdit;
+		var id;
+		function editMsg(event) {
+			edit = true;
+			messageToEdit = event.target.parentNode;
+			id = messageToEdit.id;
+			var userMessage = messageToEdit.querySelector("label");
+			if(event.target.className === "edit") {
+				userInput.focus();
+				userInput.value = userMessage.innerHTML;
+			}
+		}
 
 // Custom Theme JS
 
 var changeBCG = document.getElementById("changeBackground");
 var changeFont = document.getElementById("changeFont");
-var save = document.getElementById("saveTheme")
+var save = document.getElementById("saveTheme");
 save.addEventListener("click", changeTheme);
 
-function changeTheme () {
+function changeTheme() {
   var newBCG = changeBCG.value;
   var newFont = changeFont.value;
   msgArea.setAttribute("style", `background-color:${newBCG}; color:${newFont}`);

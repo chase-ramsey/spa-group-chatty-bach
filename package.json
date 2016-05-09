@@ -1,0 +1,26 @@
+{
+  "name": "spa-group-chatty-bach",
+  "version": "1.0.0",
+  "description": "## Setup",
+  "main": "dom.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chase-ramsey/spa-group-chatty-bach.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chase-ramsey/spa-group-chatty-bach/issues"
+  },
+  "homepage": "https://github.com/chase-ramsey/spa-group-chatty-bach#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.1",
+    "gulp-watch": "^4.3.5",
+    "jshint": "^2.9.2",
+    "jshint-stylish": "^2.2.0"
+  }
+}
