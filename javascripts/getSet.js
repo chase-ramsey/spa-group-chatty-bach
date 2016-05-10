@@ -26,9 +26,12 @@ var Chatty = (function(aug) {
 
 	aug.editMessage = function (location, editText, editId, index) {
 		var updateTime = new Date();
+		var toEdit = messages.find(function(message) {
+			return message.handle === editId;
+		});
 		updateTime = updateTime.toLocaleTimeString() + " " + updateTime.toLocaleDateString();
-		var editMsg = new Message(editText, editId, `${messages[index].user}`, updateTime);
-		messages[index] = editMsg;
+		var editMsg = new Message(editText, editId, `${toEdit.user}`, updateTime);
+		toEdit.string = editMsg.string;
 		Chatty.loadMessages();
 	};
 
@@ -51,7 +54,7 @@ var Chatty = (function(aug) {
 		for (var i = 0; i < messages.length; i++) {
 			buildHTML += `<p id="${messages[i].handle}" class="message"><span class="strong">${messages[i].user}: </span><label class="userMsg ">${messages[i].string} </label><button class="edit">Edit</button><button class="delete">Delete</button><span class="timeStamp">${messages[i].time}</span></p>`;
 		}
-		outputDiv.innerHTML = buildHTML;
+		$("#msgArea").html(buildHTML);
 		for (var x = 0; x < messages.length; x++) {
 			document.getElementById(`${messages[x].handle}`).addEventListener("click", Chatty.deleteMsg);
 		}
