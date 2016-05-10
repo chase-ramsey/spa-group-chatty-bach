@@ -86,9 +86,10 @@
 
 				} else {
 						var rButton = document.getElementsByClassName("rButton");
+						var selected;
 						for (var i = 0; i < rButton.length; i++) {
 		  				if (rButton[i].checked) {
-		  					var selected = rButton[i].value;
+		  					selected = rButton[i].value;
 		  				}
 		  			}
 		  			Chatty.addNewMessage(userInput.value, selected);

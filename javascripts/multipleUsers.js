@@ -1,8 +1,9 @@
 // Create an object in your JavaScript that holds an array of names (see example below).
 
+"use strict";
 
 var users = {
-	names: ["Zeus", "Hercules", "Thor", "Athena", "Beowulf", "Poseidon", "Hades"];
+	names: ["Zeus", "Hercules", "Thor", "Athena", "Beowulf", "Poseidon", "Hades"]
 };
 
 
