@@ -1,27 +1,26 @@
 
 "use strict";
 
-var Chatty = (function(xhr){
+var Chatty = (function(aug){
 
-	var jsonMessages= [];
-	var loadJson = new XMLHttpRequest();
-	loadJson.addEventListener("load", fetchMsg);
-	loadJson.open("GET", "javascripts/messages.json");
-	loadJson.send();
+	var jsonMessages = [];
 
-	function fetchMsg () {
-		var data = JSON.parse(this.responseText);
-		for (var i = 0; i < data.messages.length; i++) {
-			jsonMessages.push(data.messages[i]);
-			Chatty.addNewMessage(jsonMessages[i].message,jsonMessages[i].user);
-		}
+	$.ajax({
+		url: "javascripts/messages.json"
+	}).done(fetchMsg);
+
+	function fetchMsg(data) {
+		jsonMessages = data.messages;
+		jsonMessages.forEach(function(message) {
+			Chatty.addNewMessage(message.string, message.user);
+		});
 	}
 
-	xhr.getJson = function () {
+	aug.getJson = function () {
 		return jsonMessages;
 	};
 
-	return xhr;
+	return aug;
 
 }(Chatty || {}));
 

@@ -10,12 +10,10 @@ var Chatty = (function (aug) {
   };
 
   aug.deleteAll = function () {
-    var messages = Chatty.getMessages();
-    for (var i = 0; i < messages.length; i++) {
-      var idDelete = messages[i].handle;
-      Chatty.deleteData(idDelete);
-    }
-    buttonClearAll.disabled = true;
+    $(".message").each(function(i) {
+      Chatty.deleteData(`msg${i}`);
+    });
+    $("#clear").attr("disabled", "true");
   };
 
   return aug;

@@ -6,8 +6,6 @@ var Chatty = (function(aug) {
 	var messages = [];
 	var idCounter = 0;
 
-	var outputDiv = document.getElementById("msgArea");
-
 	function Message (string, handle, person, updateTime) {
 		this.string = string;
 		this.handle = handle;
@@ -24,7 +22,7 @@ var Chatty = (function(aug) {
 		Chatty.loadMessages();
 	};
 
-	aug.editMessage = function (location, editText, editId, index) {
+	aug.editMessage = function (editText, editId) {
 		var updateTime = new Date();
 		var toEdit = messages.find(function(message) {
 			return message.handle === editId;
@@ -55,9 +53,8 @@ var Chatty = (function(aug) {
 			buildHTML += `<p id="${messages[i].handle}" class="message"><span class="strong">${messages[i].user}: </span><label class="userMsg ">${messages[i].string} </label><button class="edit">Edit</button><button class="delete">Delete</button><span class="timeStamp">${messages[i].time}</span></p>`;
 		}
 		$("#msgArea").html(buildHTML);
-		for (var x = 0; x < messages.length; x++) {
-			document.getElementById(`${messages[x].handle}`).addEventListener("click", Chatty.deleteMsg);
-		}
+		$(".message").click(Chatty.deleteMsg);
+		$(".message").click(editMsg);
 	};
 
 

@@ -4,33 +4,15 @@
 // DOM handlers
 
 	// Header elements
-		 var userInput = document.getElementById("userInput");	// Grabs user text input field
-		 userInput.addEventListener("keyup", validateKeyup);		// Listens for keyup; runs function to validate for return key
-
-		 var darkTheme = document.getElementById("darkTheme");	// Grabs dark theme checkbox
-		 darkTheme.addEventListener("change", toggleDark);			// Listens for change; runs function to add/remove dark theme class
-
-		 var largeText = document.getElementById("largeText");	// Grabs large text checkbox
-		 largeText.addEventListener("change", toggleLarge);			// Listens for change; runs function to add/remove large text class
-
-		 var buttonSubmit = document.getElementById("submit");	// Grabs submit button
-		 buttonSubmit.addEventListener("click", msgSubmit);			// Listens for click; runs function to begin the process of creating a new message
-
-		 var buttonClearAll = document.getElementById("clear");				// Grabs clear button
-		 buttonClearAll.addEventListener("click", Chatty.deleteAll);	// Listens for click; calls Chatty.deleteAll()
+		 $("#userInput").keyup(validateKeyup);					// Listens for keyup; runs function to validate for return key
+		 $("#darkTheme").change(toggleDark);						// Listens for change; runs function to add/remove dark theme class
+		 $("#largeText").change(toggleLarge);						// Listens for change; runs function to add/remove large text class
+		 $("#submit").click(msgSubmit);									// Listens for click; runs function to begin the process of creating a new message
+		 $("#clear").click(Chatty.deleteAll);						// Listens for click; calls Chatty.deleteAll()
 
 	// Main content elements
-		 var msgArea = document.getElementById("msgArea");			// Grabs the output div where all messages appear
-		 msgArea.addEventListener("click", Chatty.deleteMsg);		// Listens for click; runs function that calls Chatty.deleteMsg and passes in event.target
-		 msgArea.addEventListener("click", editMsg);
-
-		 // All variables below are defined for the purpose of toggling light/dark classes
-		 var headerDiv = document.getElementById("navBar");
-		 var logoDiv = document.getElementById("logo");
-		 var h1Text = document.getElementsByTagName("h1");
-		 var h2Text = document.getElementsByTagName("h2");
-		 var mainContent = document.getElementById("main-content");
-		 var contentWrap = document.getElementById("wrapper");
+		 $("msgArea").click(Chatty.deleteMsg);					// Listens for click; runs function that calls Chatty.deleteMsg and passes in event.target
+		 $("msgArea").click(Chatty.editMsg);						// Listens for click; runs function that calls Chatty.deleteMsg and passes in event.target
 
  // Edit mode
  		var edit = false;
@@ -51,39 +33,34 @@
  		// When the dark theme checkbox changes checked/unchecked,
  		// the page's content wrapper toggles the class for dark theme
  			function toggleDark() {
- 				mainContent.classList.toggle("dark-bg");
- 				headerDiv.classList.toggle("dark-h-bg");
- 				logoDiv.classList.toggle("dark-bg");
- 				h1Text[0].classList.toggle("dark-h-text");
- 				h2Text[0].classList.toggle("dark-h-text");
- 				msgArea.classList.toggle("dark-msg-area");
- 				var messageClasses = document.getElementsByClassName("message");
- 				for (var i = 0; i < messageClasses.length; i++) {
- 					messageClasses[i].classList.toggle("dark-bg");
- 				}
+ 				$("#main-content").toggleClass("dark-bg");
+ 				$("#navBar").toggleClass("dark-h-bg");
+ 				$("#logo").toggleClass("dark-bg");
+ 				$("h1").toggleClass("dark-h-text");
+ 				$("h2").toggleClass("dark-h-text");
+ 				$("#msgArea").toggleClass("dark-msg-area");
+ 				$(".message").toggleClass("dark-bg");
+ 				$(".message").children("button").css("color", "black");
  			}
 
   // toggleLarge() - Callback from largeText
   	// When the large text checkbox changes checked/unchecked,
   	// the page's content wrapper toggles the class for large text
   		function toggleLarge() {
-  			contentWrap.classList.toggle("large");
+  			$("#wrapper").toggleClass("large");
   		}
 
 	// msgSubmit() - Callback from buttonSubmit
 		// When the submit button is clicked (or a return keypress is heard),
 		// the value of the text input is passed into Chatty.addNewMessage()
   		function msgSubmit() {
-		  	var pattern = userInput.value.trim();
-				if( pattern === "") {
+				if ($("#userInput").val() === "") {
 					alert("Text field cannot be empty");
 				} else if (edit === true) {
 					var editMsg = document.getElementById(id);
-					var index = id.charAt(3);
-					Chatty.editMessage(messageToEdit, userInput.value, id, index);
-					userInput.value = "";
+					Chatty.editMessage($("#userInput").val(), id);
+					$("#userInput").value = "";
 					edit = false;
-
 				} else {
 						var rButton = document.getElementsByClassName("rButton");
 						var selected;
@@ -92,35 +69,31 @@
 		  					selected = rButton[i].value;
 		  				}
 		  			}
-		  			Chatty.addNewMessage(userInput.value, selected);
-		  			userInput.value = "";
-		  			buttonClearAll.disabled = false;
+		  			Chatty.addNewMessage($("#userInput").val(), selected);
+		  			$("#userInput").val("");
+		  			$("#clear").disabled = false;
 	  		}
   		}
 
 	// Edit functionality
-		var messageToEdit;
 		var id;
+
 		function editMsg(event) {
-			edit = true;
-			messageToEdit = event.target.parentNode;
-			id = messageToEdit.id;
-			var userMessage = messageToEdit.querySelector("label");
-			if(event.target.className === "edit") {
-				userInput.focus();
-				userInput.value = userMessage.innerHTML;
+			if (event.target.className === "edit") {
+				edit = true;
+				id = event.currentTarget.id;
+				var userMessage = $(this).children("label").html();
+				$("#userInput").focus();
+				$("#userInput").val(userMessage);
 			}
 		}
 
 // Custom Theme JS
 
-var changeBCG = document.getElementById("changeBackground");
-var changeFont = document.getElementById("changeFont");
-var save = document.getElementById("saveTheme");
-save.addEventListener("click", changeTheme);
+$("#saveTheme").click(changeTheme);
 
 function changeTheme() {
-  var newBCG = changeBCG.value;
-  var newFont = changeFont.value;
-  msgArea.setAttribute("style", `background-color:${newBCG}; color:${newFont}`);
+  var newBCG = $("changeBackground").val();
+  var newFont = $("changeFont").val();
+  $("#msgArea").css("background", `${newBCG}`).css("color", `${newFont}`);
 }

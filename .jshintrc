@@ -1,5 +1,5 @@
 {
-  "predef": [ "document", "jQuery", "$", "console" ],
+  "predef": [ "document", "jQuery", "$", "console", "Chatty", "alert" ],
   "esversion": 6,
   "globalstrict": true
 }
